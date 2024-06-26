@@ -31,6 +31,7 @@ async function getHTMLFromURL(url) {
 }
 
 async function crawlPage(baseURL, currentURL = baseURL, pages = {}) {
+    console.clear();
     if (new URL(currentURL).hostname !== new URL(baseURL).hostname) { return pages; }
     
     const normalizedURL = normalizeURL(currentURL);
