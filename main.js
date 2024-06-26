@@ -12,7 +12,7 @@ function main() {
     else {
         const baseURL = process.argv[2];
         console.log(`Starting crawl at ${baseURL}...`);
-        crawlPage(baseURL);
+        console.log(JSON.stringify(crawlPage(baseURL)));
     }
 }
 

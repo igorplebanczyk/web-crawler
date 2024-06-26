@@ -17,6 +17,8 @@
     "jest": "^29.7.0"
   },
   "dependencies": {
-    "jsdom": "^24.1.0"
+    "jsdom": "^24.1.0",
+    "node-fetch": "^3.3.2",
+    "npm-fetch": "^0.0.9"
   }
 }
