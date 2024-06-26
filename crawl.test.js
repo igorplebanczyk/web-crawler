@@ -1,6 +1,5 @@
 import { test, expect } from "@jest/globals";
-import { normalizeURL } from "./crawl.js";
-
+import { normalizeURL, getURLsFromHTML } from "./crawl.js";
 
 describe('normalizeURL', () => {
     it('should normalize a simple URL', () => {
@@ -42,5 +41,70 @@ describe('normalizeURL', () => {
         const input = 'https://example.com';
         const expected = 'example.com';
         expect(normalizeURL(input)).toBe(expected);
+    });
+});
+
+describe('getURLsFromHTML', () => {
+    it('should return an empty array for an empty HTML body', () => {
+        const input = '';
+        const baseURL = 'http://example.com';
+        const expected = [];
+        expect(getURLsFromHTML(input, baseURL)).toEqual(expected);
+    });
+
+    it('should return an empty array for an HTML body without links', () => {
+        const input = '<html><body></body></html>';
+        const baseURL = 'http://example.com';
+        const expected = [];
+        expect(getURLsFromHTML(input, baseURL)).toEqual(expected);
+    });
+
+    it('should return an array of URLs from an HTML body', () => {
+        const input = '<html><body><a href="http://example.com">Link</a></body></html>';
+        const baseURL = 'http://example.com';
+        const expected = ['http://example.com/'];
+        expect(getURLsFromHTML(input, baseURL)).toEqual(expected);
+    });
+
+    it('should return an array of URLs from an HTML body with multiple links', () => {
+        const input = '<html><body><a href="http://example.com">Link 1</a><a href="http://example.com/path">Link 2</a></body></html>';
+        const baseURL = 'http://example.com';
+        const expected = ['http://example.com/', 'http://example.com/path'];
+        expect(getURLsFromHTML(input, baseURL)).toEqual(expected);
+    });
+
+    it('should return an array of URLs from an HTML body with relative links', () => {
+        const input = '<html><body><a href="/path">Link</a></body></html>';
+        const baseURL = 'http://example.com';
+        const expected = ['http://example.com/path'];
+        expect(getURLsFromHTML(input, baseURL)).toEqual(expected);
+    });
+
+    it('should return an array of URLs from an HTML body with links to other domains', () => {
+        const input = '<html><body><a href="http://example.com">Link</a><a href="http://example.com/path">Link</a></body></html>';
+        const baseURL = 'http://other.com';
+        const expected = ['http://example.com/', 'http://example.com/path'];
+        expect(getURLsFromHTML(input, baseURL)).toEqual(expected);
+    });
+
+    it('should return an array of URLs from an HTML body with links to other domains and relative links', () => {
+        const input = '<html><body><a href="http://example.com">Link</a><a href="/path">Link</a></body></html>';
+        const baseURL = 'http://other.com';
+        const expected = ['http://example.com/', 'http://other.com/path'];
+        expect(getURLsFromHTML(input, baseURL)).toEqual(expected);
+    });
+
+    it('should return an array of URLs from an HTML body with links to other domains and relative links with query parameters', () => {
+        const input = '<html><body><a href="http://example.com">Link</a><a href="/path?query=1">Link</a></body></html>';
+        const baseURL = 'http://other.com';
+        const expected = ['http://example.com/', 'http://other.com/path?query=1'];
+        expect(getURLsFromHTML(input, baseURL)).toEqual(expected);
+    });
+
+    it('should return an array of URLs from an HTML body with links to other domains and relative links with hashes', () => {
+        const input = '<html><body><a href="http://example.com">Link</a><a href="/path#hash">Link</a></body></html>';
+        const baseURL = 'http://other.com';
+        const expected = ['http://example.com/', 'http://other.com/path#hash'];
+        expect(getURLsFromHTML(input, baseURL)).toEqual(expected);
     });
 });
