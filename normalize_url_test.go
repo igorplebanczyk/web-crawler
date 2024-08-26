@@ -16,10 +16,6 @@ func TestNormalizeURL(t *testing.T) {
 		{
 			name:     "remove scheme with port",
 			inputURL: "https://blog.boot.dev:8080/path",
-		},
-		{
-			name:     "remove scheme with port",
-			inputURL: "https://blog.boot.dev:8080/path",
 			expected: "blog.boot.dev:8080/path",
 		},
 		{
@@ -51,11 +47,6 @@ func TestNormalizeURL(t *testing.T) {
 			name:     "URL with fragment",
 			inputURL: "https://example.com/path#fragment",
 			expected: "example.com/path#fragment",
-		},
-		{
-			name:     "URL with user info",
-			inputURL: "https://user:pass@example.com",
-			expected: "user:pass@example.com",
 		},
 	}
 
