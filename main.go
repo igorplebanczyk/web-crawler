@@ -21,4 +21,5 @@ func main() {
 	rawBaseURL := os.Args[1]
 
 	fmt.Printf("starting crawl of: %s...\n", rawBaseURL)
+	fmt.Printf(getHTML(rawBaseURL))
 }
