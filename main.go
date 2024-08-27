@@ -21,10 +21,14 @@ func main() {
 	rawBaseURL := os.Args[1]
 
 	fmt.Printf("starting crawl of: %s...\n", rawBaseURL)
-	pages := make(map[string]int)
-	crawlPage(rawBaseURL, rawBaseURL, pages)
-	for k, v := range pages {
-		fmt.Printf("%s: %d\n", k, v)
+
+	cfg, err := getConfig(rawBaseURL)
+	if err != nil {
+		fmt.Println(err)
 	}
+
+	cfg.crawlPage(rawBaseURL)
+	cfg.wg.Wait()
+
 	fmt.Println("crawl complete")
 }
