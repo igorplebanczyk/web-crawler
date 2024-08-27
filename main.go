@@ -33,4 +33,8 @@ func main() {
 	cfg.wg.Wait()
 
 	fmt.Println("crawl complete")
+
+	for url, count := range cfg.pages {
+		fmt.Printf("%s: %d\n", url, count)
+	}
 }
