@@ -22,19 +22,17 @@ func main() {
 	maxConcurrency := os.Args[2]
 	maxPages := os.Args[3]
 
-	fmt.Printf("starting crawl of: %s...\n", rawBaseURL)
-
 	cfg, err := getConfig(rawBaseURL, maxConcurrency, maxPages)
 	if err != nil {
 		fmt.Println(err)
 	}
 
+	fmt.Printf("Starting crawl of: %s...\n", rawBaseURL)
+
 	cfg.crawlPage(rawBaseURL)
 	cfg.wg.Wait()
 
-	fmt.Println("crawl complete")
+	fmt.Println("Crawl complete")
 
-	for url, count := range cfg.pages {
-		fmt.Printf("%s: %d\n", url, count)
-	}
+	cfg.printReport()
 }
