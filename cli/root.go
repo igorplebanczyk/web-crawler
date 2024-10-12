@@ -17,6 +17,7 @@ func init() {
 	rootCmd.Flags().StringP("website", "w", "", "Website URL to crawl")
 	rootCmd.Flags().IntP("max-concurrency", "c", 10, "Maximum number of goroutines")
 	rootCmd.Flags().IntP("max-pages", "p", 100, "Maximum number of pages to crawl")
+	_ = rootCmd.MarkFlagRequired("website")
 }
 
 func rootCmdRun(cmd *cobra.Command, _ []string) error {
