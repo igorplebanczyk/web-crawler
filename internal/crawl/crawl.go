@@ -1,15 +1,16 @@
-package main
+package crawl
 
 import (
 	"fmt"
 	"net/url"
+	"web-crawler/internal/util"
 )
 
-func (cfg *config) crawlPage(rawCurrentURL string) {
+func (cfg *Config) CrawlPage(rawCurrentURL string) {
 	cfg.concurrencyControl <- struct{}{}
 	defer func() {
 		<-cfg.concurrencyControl
-		cfg.wg.Done()
+		cfg.Wg.Done()
 	}()
 
 	if cfg.getPagesLength() >= cfg.maxPages {
@@ -26,7 +27,7 @@ func (cfg *config) crawlPage(rawCurrentURL string) {
 		return
 	}
 
-	normalizedCurrentURL, err := NormalizeURL(rawCurrentURL)
+	normalizedCurrentURL, err := util.NormalizeURL(rawCurrentURL)
 	if err != nil {
 		fmt.Printf("failed to normalize current URL: %s\n", err)
 		return
@@ -52,12 +53,12 @@ func (cfg *config) crawlPage(rawCurrentURL string) {
 	}
 
 	for _, u := range urls {
-		cfg.wg.Add(1)
-		go cfg.crawlPage(u)
+		cfg.Wg.Add(1)
+		go cfg.CrawlPage(u)
 	}
 }
 
-func (cfg *config) addPageVisit(normalizedURL string) (isFirst bool) {
+func (cfg *Config) addPageVisit(normalizedURL string) (isFirst bool) {
 	cfg.mu.Lock()
 	defer cfg.mu.Unlock()
 
@@ -71,7 +72,7 @@ func (cfg *config) addPageVisit(normalizedURL string) (isFirst bool) {
 	return true
 }
 
-func (cfg *config) getPagesLength() int {
+func (cfg *Config) getPagesLength() int {
 	cfg.mu.Lock()
 	defer cfg.mu.Unlock()
 

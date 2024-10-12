@@ -1,11 +1,11 @@
-package main
+package crawl
 
 import (
 	"fmt"
 	"sort"
 )
 
-func (cfg *config) printReport() {
+func (cfg *Config) PrintReport() {
 	fmt.Println("===============================")
 	fmt.Printf("REPORT for %s\n", cfg.baseURL)
 	fmt.Println("===============================")

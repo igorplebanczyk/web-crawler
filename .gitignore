@@ -1,1 +1,5 @@
+# Ignore the specific crawler file
 crawler
+
+# Do not ignore the crawler directory
+!crawler/

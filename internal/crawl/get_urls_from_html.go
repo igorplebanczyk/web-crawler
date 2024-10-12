@@ -1,4 +1,4 @@
-package main
+package crawl
 
 import (
 	"golang.org/x/net/html"
@@ -15,7 +15,7 @@ func GetURLsFromHTML(htmlBody, rawBaseURL string) ([]string, error) {
 }
 
 func extractURLs(node *html.Node, rawBaseURL string) []string {
-	extractedURLs := []string{}
+	var extractedURLs []string
 
 	if node.Type == html.ElementNode && node.Data == "a" {
 		for _, attr := range node.Attr {
