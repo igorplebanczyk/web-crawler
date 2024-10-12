@@ -2,7 +2,7 @@ package main
 
 import "net/url"
 
-func normalizeURL(rawURL string) (string, error) {
+func NormalizeURL(rawURL string) (string, error) {
 	parsedURL, err := url.Parse(rawURL)
 	if err != nil {
 		return "", err

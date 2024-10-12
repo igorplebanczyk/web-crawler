@@ -26,7 +26,7 @@ func (cfg *config) crawlPage(rawCurrentURL string) {
 		return
 	}
 
-	normalizedCurrentURL, err := normalizeURL(rawCurrentURL)
+	normalizedCurrentURL, err := NormalizeURL(rawCurrentURL)
 	if err != nil {
 		fmt.Printf("failed to normalize current URL: %s\n", err)
 		return
@@ -45,7 +45,7 @@ func (cfg *config) crawlPage(rawCurrentURL string) {
 		return
 	}
 
-	urls, err := getURLsFromHTML(html, cfg.baseURL.String())
+	urls, err := GetURLsFromHTML(html, cfg.baseURL.String())
 	if err != nil {
 		fmt.Printf("failed to get URLs from HTML: %s\n", err)
 		return

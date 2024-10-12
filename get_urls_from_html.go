@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func getURLsFromHTML(htmlBody, rawBaseURL string) ([]string, error) {
+func GetURLsFromHTML(htmlBody, rawBaseURL string) ([]string, error) {
 	node, err := html.Parse(strings.NewReader(htmlBody))
 	if err != nil {
 		return nil, err
